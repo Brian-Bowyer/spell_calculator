@@ -13,3 +13,4 @@ COPY . /app
 WORKDIR /app
 
 # CMD ["gunicorn", "--config=./gunicorn_conf.py", "app.main:app"]
+CMD ["python", "app/main.py"]
