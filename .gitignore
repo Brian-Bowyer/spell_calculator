@@ -1,0 +1,51 @@
+# Project related
+*.vscode
+
+###############################################################################
+# PYTHON SPECIFIC
+# SEE: https://github.com/github/gitignore/blob/master/Python.gitignore
+###############################################################################
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+src/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+.pytest_cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# ENV files
+*.env
+
+# mypy
+.mypy_cache
