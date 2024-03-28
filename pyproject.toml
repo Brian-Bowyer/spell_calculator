@@ -6,9 +6,10 @@ authors = ["Brian-Bowyer <bobsnake64@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+nicegui = "^1.4.19"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
