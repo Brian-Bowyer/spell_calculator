@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "python_template"
+name = "spell_calculator"
 version = "0.1.0"
-description = ""
+description = "A NiceGUI-based application for calculating Mage: the Awakening spells."
 authors = ["Brian-Bowyer <bobsnake64@gmail.com>"]
 
 [tool.poetry.dependencies]

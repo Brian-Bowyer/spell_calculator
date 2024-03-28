@@ -1,3 +1,3 @@
-# Python Template
+# Spell Calculator
 
-This is my personal template for Python projects. For FastAPI projects specifically, see [Brian-Bowyer/fastapi_template](https://github.com/Brian-Bowyer/fastapi_template).
+A spell calculator for Mage: the Awakening spells. Built using NiceGUI.
