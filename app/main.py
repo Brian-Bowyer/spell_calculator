@@ -1,40 +1,80 @@
+from typing import Callable
+
 from nicegui import ui
+
+
+def card_title(label: str):
+    with ui.card_section().classes("border w-full bg-teal-800 text-white"):
+        ui.label(label)
+
+
+def field(label: str, field_generator: Callable):
+    with ui.card_section().classes("w-full border"):
+        ui.markdown(f"###### {label}")
+        field_generator()
 
 
 @ui.page("/")
 def main():
-    with ui.row().classes("w-full h-full border flex-wrap"):
-        columns = [ui.column().classes("flex-auto border") for _ in range(3)]
-        with columns[0]:
-            cards = [ui.card().classes("w-full items-center") for _ in range(3)]
-            with cards[0]:
-                ui.label("Lorem ipsum")
+    with ui.header():
+        ui.label("Header goes here")
 
-            with cards[1]:
-                ui.label("Lorem ipsum")
+    with ui.stepper().props("alternative-labels contractable").classes(
+        "flex w-full"
+    ) as stepper:
+        with ui.step(name="first", title="Spell Overview"):
+            ui.markdown("##### Spell Overview")
 
-            with cards[2]:
-                ui.label("Lorem ipsum")
-        with columns[1]:
-            cards = [ui.card().classes("w-full items-center") for _ in range(3)]
-            with cards[0]:
-                ui.label("Lorem ipsum")
+            with ui.row().classes("flex w-full"):
+                with ui.card().tight().classes("border w-4/12"):
+                    card_title("CASTER")
 
-            with cards[1]:
-                ui.label("Lorem ipsum")
+                    field(
+                        "Gnosis",
+                        lambda: ui.slider(min=1, max=5, step=1)
+                        .props("label-always")
+                        .classes("w-full"),
+                    )
 
-            with cards[2]:
-                ui.label("Lorem ipsum")
-        with columns[2]:
-            cards = [ui.card().classes("w-full items-center") for _ in range(3)]
-            with cards[0]:
-                ui.label("Lorem ipsum")
+                    field("Highest Arcanum Used", lambda: None)
 
-            with cards[1]:
-                ui.label("Lorem ipsum")
+                    field("Mage's X Arcanum", lambda: None)
 
-            with cards[2]:
-                ui.label("Lorem ipsum")
+                    field("Is X the Mage's Highest Arcanum?", lambda: None)
+
+                    field("Is X the Mage's Ruling Arcanum?", lambda: None)
+
+                    field("Active Spells", lambda: None)
+
+                with ui.card().tight().classes("border w-4/12"):
+                    card_title("SPELL")
+                    field("Spell's Required X Arcanum", lambda: None)
+                    field("Primary Factor", lambda: None)
+                    field("Is Rote?", lambda: None)
+                    field("Is Praxis?", lambda: None)
+                    field("Additional Spellcasting Dice", lambda: None)
+                    field("Willpower Spent", lambda: None)
+
+                with ui.card().tight().classes("border w-3/12"):
+                    card_title("SUBJECT")
+                    field("Is Resisted?", lambda: None)
+                    # hidden: Withstand
+                    # hidden: Number of Withstand Ratings
+
+        with ui.step(name="second", title="Factors"):
+            ui.label("pass")
+
+        with ui.step(name="third", title="Yantras"):
+            ui.label("pass")
+
+        with ui.step(name="fourth", title="Paradox"):
+            ui.label("pass")
+
+        with ui.step(name="fifth", title="Summary"):
+            ui.label("pass")
+
+    with ui.footer():
+        ui.label("Footer goes here")
 
 
 ui.run()
