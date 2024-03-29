@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import Callable
 
 from nicegui import ui
+from utils.constants import ARCANA, STORAGE_SECRET
 
 
 def card_title(label: str):
@@ -8,14 +10,30 @@ def card_title(label: str):
         ui.label(label)
 
 
+def field_card():
+    return ui.card_section().classes("w-full border")
+
+
 def field(label: str, field_generator: Callable):
-    with ui.card_section().classes("w-full border"):
+    with field_card():
         ui.markdown(f"###### {label}")
         field_generator()
 
 
+@dataclass
+class Caster:
+    def __init__(self):
+        self.gnosis = 1
+        self.arcanum_name = ARCANA[0]
+        self.arcanum_value = 1
+        self.is_highest_arcanum = True
+        self.is_ruling_arcanum = True
+        self.active_spells = 0
+
+
 @ui.page("/")
 def main():
+    caster = Caster()
     with ui.header():
         ui.label("Header goes here")
 
@@ -29,22 +47,47 @@ def main():
                 with ui.card().tight().classes("border w-4/12"):
                     card_title("CASTER")
 
-                    field(
-                        "Gnosis",
-                        lambda: ui.slider(min=1, max=5, step=1)
-                        .props("label-always")
-                        .classes("w-full"),
-                    )
+                    with field_card():
+                        ui.markdown(f"###### Gnosis")
+                        ui.slider(min=1, max=10, step=1).props(
+                            "label-always snap"
+                        ).bind_value(caster, "gnosis")
 
-                    field("Highest Arcanum Used", lambda: None)
+                    with field_card():
+                        ui.markdown(f"###### Highest Arcanum Used")
+                        ui.select(options=ARCANA).bind_value(
+                            caster,
+                            "arcanum_name",
+                        )
+                    with field_card():
+                        ui.markdown().bind_content_from(
+                            caster,
+                            "arcanum_name",
+                            lambda arcanum: f"###### Mage's {arcanum} Arcanum",
+                        )
+                        ui.slider(min=1, max=5, step=1).props(
+                            "label-always snap"
+                        ).bind_value(caster, "arcanum_value")
 
-                    field("Mage's X Arcanum", lambda: None)
+                    with field_card():
+                        ui.markdown().bind_content_from(
+                            caster,
+                            "arcanum_name",
+                            lambda arcanum: f"###### Is {arcanum} the Mage's Highest Arcanum?",
+                        )
+                        ui.switch(value=True).bind_value(caster, "is_highest_arcanum")
 
-                    field("Is X the Mage's Highest Arcanum?", lambda: None)
+                    with field_card():
+                        ui.markdown().bind_content_from(
+                            caster,
+                            "arcanum_name",
+                            lambda arcanum: f"###### Is {arcanum} the Mage's Ruling Arcanum?",
+                        )
+                        ui.switch(value=True).bind_value(caster, "is_ruling_arcanum")
 
-                    field("Is X the Mage's Ruling Arcanum?", lambda: None)
-
-                    field("Active Spells", lambda: None)
+                    with field_card():
+                        ui.markdown(f"###### Active Spells")
+                        ui.number(value=0, min=0).bind_value(caster, "active_spells")
 
                 with ui.card().tight().classes("border w-4/12"):
                     card_title("SPELL")
@@ -77,4 +120,4 @@ def main():
         ui.label("Footer goes here")
 
 
-ui.run()
+ui.run(storage_secret=STORAGE_SECRET)
