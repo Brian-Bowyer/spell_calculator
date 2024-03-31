@@ -12,7 +12,5 @@ def field_card():
     return ui.card_section().classes("w-full border")
 
 
-def field(label: str, field_generator: Callable):
-    with field_card():
-        ui.markdown(f"###### {label}")
-        field_generator()
+def labeled_snap_slider(*args, **kwargs):
+    return ui.slider(*args, **kwargs).props("label-always snap")

@@ -12,5 +12,10 @@ ARCANA = [
     "Spirit",
     "Time",
 ]
-
+PRIMARY_FACTOR = [
+    "Potency",
+    "Duration",
+    "Potency (swapped from Duration)",
+    "Duration (swapped from Potency)",
+]
 STORAGE_SECRET = os.getenv("STORAGE_SECRET", "local_storage_secret")
