@@ -1,13 +1,10 @@
-from models import Caster, Casting, Spell
+from models import Spell
 from nicegui import ui
 from templates import card_title, field_card, labeled_snap_slider
 from utils.constants import ARCANA, PRIMARY_FACTOR
 
 
-def spell_overview_page():
-    caster = Caster()
-    spell = Spell()
-    casting = Casting()
+def spell_overview_page(spell: Spell):
     with ui.step(name="first", title="Spell Overview"):
         ui.markdown("##### Spell Overview")
 
@@ -19,37 +16,37 @@ def spell_overview_page():
                     ui.markdown(f"###### Gnosis")
                     labeled_snap_slider(min=1, max=10, step=1).props(
                         "label-always snap"
-                    ).bind_value(caster, "gnosis")
+                    ).bind_value(spell, "gnosis")
 
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "arcanum_name",
+                        "caster_arcanum_name",
                         lambda arcanum: f"###### Mage's {arcanum} Arcanum",
                     )
                     labeled_snap_slider(min=1, max=5, step=1).bind_value(
-                        caster, "arcanum_value"
+                        spell, "caster_arcanum_value"
                     )
 
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "arcanum_name",
+                        "caster_arcanum_name",
                         lambda arcanum: f"###### Is {arcanum} the Mage's Highest Arcanum?",
                     )
-                    ui.switch(value=True).bind_value(caster, "is_highest_arcanum")
+                    ui.switch(value=True).bind_value(spell, "is_highest_arcanum")
 
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "arcanum_name",
+                        "caster_arcanum_name",
                         lambda arcanum: f"###### Is {arcanum} the Mage's Ruling Arcanum?",
                     )
-                    ui.switch(value=True).bind_value(caster, "is_ruling_arcanum")
+                    ui.switch(value=True).bind_value(spell, "is_ruling_arcanum")
 
                 with field_card():
                     ui.markdown(f"###### Active Spells")
-                    ui.number(value=0, min=0).bind_value(caster, "active_spells")
+                    ui.number(value=0, min=0).bind_value(spell, "active_spells")
 
             with ui.card().tight().classes("border w-4/12"):
                 card_title("SPELL")
@@ -57,17 +54,17 @@ def spell_overview_page():
                     ui.markdown(f"###### Highest Arcanum Used")
                     ui.select(options=ARCANA).bind_value(
                         spell,
-                        "arcanum_name",
+                        "caster_arcanum_name",
                     )
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "arcanum_name",
+                        "caster_arcanum_name",
                         lambda arcanum: f"###### Spell's Rrequired {arcanum} Arcanum",
                     )
                     labeled_snap_slider(value=1, min=1, max=5).bind_value(
                         spell,
-                        "arcanum_value",
+                        "spell_arcanum_value",
                     )
                 with field_card():
                     ui.markdown(f"###### Spell's Primary Factor")
@@ -95,6 +92,6 @@ def spell_overview_page():
                 card_title("CASTING")
                 with field_card():
                     ui.markdown(f"###### Is Resisted?")
-                    ui.switch(value=False).bind_value(casting, "is_resisted")
+                    ui.switch(value=False).bind_value(spell, "is_resisted")
                 # hidden: Withstand
                 # hidden: Number of Withstand Ratings

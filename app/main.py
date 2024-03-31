@@ -1,3 +1,4 @@
+from models import Spell
 from nicegui import ui
 from pages.spell_overview import spell_overview_page
 from utils.constants import STORAGE_SECRET
@@ -5,13 +6,14 @@ from utils.constants import STORAGE_SECRET
 
 @ui.page("/")
 def main():
+    spell = Spell()
     with ui.header():
         ui.label("Header goes here")
 
     with ui.stepper().props("alternative-labels contractable").classes(
         "flex w-full"
     ) as stepper:
-        spell_overview_page()
+        spell_overview_page(spell)
 
         with ui.step(name="second", title="Factors"):
             ui.label("pass")
