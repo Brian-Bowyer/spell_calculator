@@ -21,7 +21,7 @@ def spell_overview_page(spell: Spell):
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "caster_arcanum_name",
+                        "arcanum_name",
                         lambda arcanum: f"###### Mage's {arcanum} Arcanum",
                     )
                     labeled_snap_slider(min=1, max=5, step=1).bind_value(
@@ -31,7 +31,7 @@ def spell_overview_page(spell: Spell):
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "caster_arcanum_name",
+                        "arcanum_name",
                         lambda arcanum: f"###### Is {arcanum} the Mage's Highest Arcanum?",
                     )
                     ui.switch(value=True).bind_value(spell, "is_highest_arcanum")
@@ -39,7 +39,7 @@ def spell_overview_page(spell: Spell):
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "caster_arcanum_name",
+                        "arcanum_name",
                         lambda arcanum: f"###### Is {arcanum} the Mage's Ruling Arcanum?",
                     )
                     ui.switch(value=True).bind_value(spell, "is_ruling_arcanum")
@@ -54,15 +54,26 @@ def spell_overview_page(spell: Spell):
                     ui.markdown(f"###### Highest Arcanum Used")
                     ui.select(options=ARCANA).bind_value(
                         spell,
-                        "caster_arcanum_name",
+                        "arcanum_name",
                     )
                 with field_card():
                     ui.markdown().bind_content_from(
                         spell,
-                        "caster_arcanum_name",
-                        lambda arcanum: f"###### Spell's Rrequired {arcanum} Arcanum",
+                        "arcanum_name",
+                        lambda arcanum: f"###### Spell's Required {arcanum} Arcanum",
                     )
-                    labeled_snap_slider(value=1, min=1, max=5).bind_value(
+
+                    def validate_spell_arcanum_value(event):
+                        if spell.caster_arcanum_value < event.value:
+                            spell.caster_arcanum_value = event.value
+                            ui.notify(
+                                "Spell Arcanum Value cannot be higher than Caster Arcanum Value",
+                                type="warning",
+                            )
+
+                    labeled_snap_slider(
+                        value=1, min=1, max=5, on_change=validate_spell_arcanum_value
+                    ).bind_value(
                         spell,
                         "spell_arcanum_value",
                     )

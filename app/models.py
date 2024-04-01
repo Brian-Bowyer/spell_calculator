@@ -30,10 +30,10 @@ class Spell:
     @property
     def dice(self) -> int:
         # TODO add yantras
-        return (
+        return int(
             self.gnosis
             + self.caster_arcanum_value
-            + self.additional_dice
+            + (self.additional_dice if self.additional_dice else 0)
             + (3 if self.is_willpower_spent else 0)
         )
 
@@ -45,6 +45,10 @@ class Spell:
     def used_reach(self) -> int:
         # TODO calculate used reach
         return 0
+
+    @property
+    def reach(self) -> str:
+        return f"{self.used_reach}/{self.free_reach}"
 
     @property
     def paradox(self) -> int:
