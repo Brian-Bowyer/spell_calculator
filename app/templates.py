@@ -12,5 +12,10 @@ def field_card():
     return ui.card_section().classes("w-full border")
 
 
+@ui.refreshable
 def labeled_snap_slider(*args, **kwargs):
     return ui.slider(*args, **kwargs).props("label-always snap")
+
+
+def chip():
+    return ui.badge().props("color=cyan rounded").classes("text-base font-bold")

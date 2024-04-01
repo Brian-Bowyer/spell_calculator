@@ -1,6 +1,7 @@
 from models import Spell
 from nicegui import ui
 from pages.spell_overview import spell_overview_page
+from templates import chip
 from utils.constants import STORAGE_SECRET
 
 
@@ -28,7 +29,8 @@ def main():
             ui.label("pass")
 
     with ui.footer():
-        ui.label("Footer goes here")
+        chip().bind_text_from(spell, "reach", lambda reach: f"Reach: {reach}")
+        chip().bind_text_from(spell, "dice", lambda dice: f"Dice pool: {dice}")
 
 
 ui.run(storage_secret=STORAGE_SECRET)
